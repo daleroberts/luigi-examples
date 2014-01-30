@@ -1,4 +1,4 @@
-luigi-examples
-==============
+Test codes for luigi
+====================
 
-Some luigi examples
+Some test codes for http://www.github.com/spotify/luigi
