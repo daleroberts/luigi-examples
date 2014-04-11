@@ -87,34 +87,6 @@ class ModisPixelThresholdCount(luigi.Task):
         with self.output().open('w') as outfile:
             outfile.write('{}\n'.format(count))
 
-
-
-class AggregateCountInterval(luigi.Task):
-
-    lat_interval = luigi.IntParameter(is_list=True)
-    lon_interval = luigi.IntParameter(is_list=True)
-    value = luigi.FloatParameter()
-
-    def output(self):
-        return luigi.LocalTarget('thresh.txt')
-
-    def requires(self):
-        lats = range(*self.lat_interval)
-        lons = range(*self.lon_interval)
-        return [ModisPixelThresholdCount(lat, lon, self.value) for lat in lats
-                for lon in lons]
-
-    def run(self):
-        total = 0
-        for input in self.input():
-            with input.open('r') as infile:
-                line = infile.readlines()[0]
-                total += int(line.strip())
-
-        with self.output().open('w') as outfile:
-            outfile.write('{}'.format(total))
-
-
 @rm_inputs_afterwards
 class AggregateCount(luigi.Task):
 
